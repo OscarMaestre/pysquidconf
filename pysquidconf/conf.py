@@ -10,7 +10,7 @@ class ConfFile(object):
         self.allows    = []
         self.ssl_end   = []
         
-        self.acl_network_template       = "acl               {0} {1}"
+        self.acl_network_template       = "acl               {0} src {1}"
         self.http_allow_access_template = "http_access allow {0}"
         self.http_deny_access_template  = "http_access deny  {0}"
         self.dstdomain_template         = "acl               {0} dstdomain  {1}"
