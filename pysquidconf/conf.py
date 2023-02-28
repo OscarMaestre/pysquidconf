@@ -70,7 +70,6 @@ class ConfFile(object):
 
         if isinstance(domains, list):
             domain_string=" ".join(domains)
-            print("El domain string es:"+domain_string)
         else:
             domain_string="\"{0}\"".format(domains)
         list_to_add.append(self.dstdomain_template.format(name, domain_string))
@@ -115,3 +114,7 @@ class ConfFile(object):
         
         return "\n".join(lines)
         
+    def save(self, filename):
+        with open(filename, "w") as fd:
+            fd.write(self.get_text())
+            fd.write("\n\n")

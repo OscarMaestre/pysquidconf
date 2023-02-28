@@ -1,11 +1,12 @@
 
 
 class Squid(object):
-    def __init__(self, private_key_file, self_signed_certificate_file, rsa_key_length, validity_in_days, ssl_certs_directory, user_that_squid_uses="proxy", comment_http_port=False) -> None:
+    def __init__(self, private_key_file, self_signed_certificate_file, rsa_key_length, validity_in_days, ssl_certs_directory, user_that_squid_uses="proxy", comment_http_port=False, conf_file="/etc/squid/conf.d/generated_file.conf") -> None:
         
         self.remove_squid           = "sudo apt-get purge -y squid-openssl"
         self.remove_confs           = "sudo rm -rf /etc/squid"
         self.install_squid          = "sudo apt-get install -y squid-openssl"
+        self.copy_conf_file         = f'sudo cp {conf_file} /etc/squid/conf.d'
         self.certificate_generation = f'sudo openssl req -new -newkey rsa:{rsa_key_length} -days {validity_in_days} -nodes -x509 -keyout {private_key_file} -out {self_signed_certificate_file}'
         self.assign_permission      ="sudo chown {0}:{0} {1}".format(user_that_squid_uses, ssl_certs_directory)
         self.comment_http_port      =comment_http_port

@@ -4,6 +4,7 @@ from pysquidconf.conf import ConfFile
 from pysquidconf.commands import Squid
 
 def crear_fichero():
+    filename="mifichero.conf"
     conf=ConfFile()
     conf.add_network_acl("Oficina", "172.16.0.0/16", allow=False, comment="Denegar 172.16.0.0/16")
     conf.add_network_acl("Oficina", "192.168.0.0/24", allow=True, comment="Permitir 192.168.0.0/24")
@@ -16,12 +17,13 @@ def crear_fichero():
 
     conf.add_ssl_start("manipular_certificados", comment="Procesado de certificados")
     conf.add_ssl_end("/etc/squid/ficheros", 50,comment="Generacion de certificados")
-    print (conf.get_text())
+    
+    conf.save(filename)
 
     squid_commands=Squid("ClavePrivada.key", "CertificadoParaNavegador.crt",
                          validity_in_days=365, rsa_key_length=2048,
                          ssl_certs_directory="/etc/squid/certificados_squid_ssl",
-                         comment_http_port=True)
+                         comment_http_port=True, conf_file=filename)
     squid_commands.save("squid.sh")
 
 if __name__=="__main__":
