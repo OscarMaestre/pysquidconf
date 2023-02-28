@@ -111,7 +111,7 @@ class ConfFile(object):
         self.http_port.append(http_port_line)
         
     def get_text(self):
-        lines=self.ssl_start+self.http_port+self.blocks + self.allows + self.ssl_end
+        lines=self.http_port+self.ssl_start+self.blocks + self.allows + self.ssl_end
         
         return "\n".join(lines)
         

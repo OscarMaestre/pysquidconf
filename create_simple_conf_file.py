@@ -21,7 +21,7 @@ def crear_fichero():
     domains=[".marca.com", ".as.com", ".elpais.com"]
     conf.add_dstdomain_acl("periodicos", domains, allow=False, comment="Periodicos")
 
-    conf.add_dstdomain_acl("webs", "lista_webs.txt", allow=False, comment="Periodicos")
+    #conf.add_dstdomain_acl("webs", "lista_webs.txt", allow=False, comment="Periodicos")
 
     conf.add_url_regex("paginas_violentas", "viol", allow=False, comment="")
 
