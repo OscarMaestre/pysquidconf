@@ -10,7 +10,7 @@ class CertificateData(object):
     common_name:str
     email:str
     def __str__(self) -> str:
-        text=f'/C=<{self.country_name}>/ST=<{self.state_name}>/L=<{self.locality_name}>/O=<{self.organization_name}>/CN=<{self.common_name}>/OU=<{self.organizational_unit}>'
+        text=f'/C={self.country_name}/ST={self.state_name}/L={self.locality_name}/O={self.organization_name}/CN={self.common_name}/OU={self.organizational_unit}'
         return text
 
 class Squid(object):
@@ -31,6 +31,7 @@ class Squid(object):
         
     def get_text(self):
         commands=[
+            self.stop_service,
             self.remove_squid,
             self.install_squid,
             self.certificate_generation,
