@@ -5,6 +5,7 @@ class ConfFile(object):
     NUMBER_OF_HASHES=60
     def __init__(self) -> None:
         self.ssl_start = []
+        self.http_port = []
         self.blocks    = []
         self.allows    = []
         self.ssl_end   = []
@@ -101,8 +102,16 @@ class ConfFile(object):
         self.ssl_end.append(ssl_stare)
         self._add_end_section(self.ssl_end, comment)
     
+    def add_http_port(self, cache_size, certificate_file, private_key, comment=""):
+        
+        http_port_template=f'http_port 3128 tcpkeepalive=60,30,3 ssl-bump \
+            generate-host-certificates=on \
+            dynamic_cert_mem_cache_size={cache_size}MB \
+            tls-cert={certificate_file} \
+            tls-key={private_key}'
+        
     def get_text(self):
-        lines=self.ssl_start+self.blocks + self.allows + self.ssl_end
+        lines=self.ssl_start+self.http_port+self.blocks + self.allows + self.ssl_end
         
         return "\n".join(lines)
         

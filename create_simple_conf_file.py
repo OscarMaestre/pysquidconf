@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from pysquidconf.conf import ConfFile
-
+from pysquidconf.commands import Squid
 
 def crear_fichero():
     conf=ConfFile()
@@ -17,6 +17,12 @@ def crear_fichero():
     conf.add_ssl_start("manipular_certificados", comment="Procesado de certificados")
     conf.add_ssl_end("/etc/squid/ficheros", 50,comment="Generacion de certificados")
     print (conf.get_text())
+
+    squid_commands=Squid("ClavePrivada.key", "CertificadoParaNavegador.crt",
+                         validity_in_days=365, rsa_key_length=2048,
+                         ssl_certs_directory="/etc/squid/certificados_squid_ssl",
+                         comment_http_port=True)
+    squid_commands.save("squid.sh")
 
 if __name__=="__main__":
     crear_fichero()
