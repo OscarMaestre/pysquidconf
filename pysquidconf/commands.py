@@ -38,7 +38,8 @@ class Squid(object):
             self.certificate_generation,
             self.remove_ssl_store,
             self.create_ssl_store,
-            self.assign_permission
+            self.assign_permission,
+            self.copy_conf_file
         ]
         if self.comment_http_port:
             commands.append("sed -i 's/http_port 3128/#http_port 3128/g' /etc/squid/squid.conf")
