@@ -103,11 +103,12 @@ class ConfFile(object):
     
     def add_http_port(self, cache_size, certificate_file, private_key, comment=""):
         
-        http_port_template=f'http_port 3128 tcpkeepalive=60,30,3 ssl-bump \
-            generate-host-certificates=on \
-            dynamic_cert_mem_cache_size={cache_size}MB \
-            tls-cert={certificate_file} \
+        http_port_line=f'http_port 3128 tcpkeepalive=60,30,3 ssl-bump \\\n\
+            generate-host-certificates=on \\\n\
+            dynamic_cert_mem_cache_size={cache_size}MB \\\n\
+            tls-cert={certificate_file} \\\n\
             tls-key={private_key}'
+        self.http_port.append(http_port_line)
         
     def get_text(self):
         lines=self.ssl_start+self.http_port+self.blocks + self.allows + self.ssl_end
