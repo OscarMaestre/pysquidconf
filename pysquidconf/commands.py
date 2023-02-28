@@ -25,16 +25,18 @@ class Squid(object):
         self.install_squid          = "sudo apt-get install -y squid-openssl"
         self.copy_conf_file         = f'sudo cp {conf_file} /etc/squid/conf.d'
         self.certificate_generation = f'sudo openssl req -new -newkey rsa:{rsa_key_length} -days {validity_in_days} -nodes -x509 -keyout {private_key_file} -out {self_signed_certificate_file} -subj \"{str_certificate}\"'
+        self.remove_ssl_store       = f'sudo rm -rf {ssl_certs_directory}'
         self.create_ssl_store       = f'sudo /usr/lib/squid/security_file_certgen  -c -s {ssl_certs_directory} -M {ssl_store_mb_limit_size}MB'
         self.assign_permission      = "sudo chown {0}:{0} {1}".format(user_that_squid_uses, ssl_certs_directory)
         self.comment_http_port      = comment_http_port
         
     def get_text(self):
         commands=[
-            self.stop_service,
-            self.remove_squid,
-            self.install_squid,
+            # self.stop_service,
+            # self.remove_squid,
+            # self.install_squid,
             self.certificate_generation,
+            self.remove_ssl_store,
             self.create_ssl_store,
             self.assign_permission
         ]
