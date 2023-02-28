@@ -14,7 +14,7 @@ def crear_fichero():
     mb_cache_size=75
     certificate_file_for_browser="FirefoxCertificate.crt"
     private_key_file="PrivateKey.key"
-    
+    certs_directory="/etc/squid/certificados_squid_ssl"
     conf=ConfFile()
     conf.add_network_acl("Oficina", "172.16.0.0/16", allow=False, comment="Denegar 172.16.0.0/16")
     conf.add_network_acl("Oficina", "192.168.0.0/24", allow=True, comment="Permitir 192.168.0.0/24")
@@ -26,14 +26,14 @@ def crear_fichero():
     conf.add_url_regex("paginas_violentas", "viol", allow=False, comment="")
 
     conf.add_ssl_start("manipular_certificados", comment="Procesado de certificados")
-    conf.add_ssl_end("/etc/squid/ficheros", mb_cache_size,comment="Generacion de certificados")
+    conf.add_ssl_end(certs_directory, mb_cache_size,comment="Generacion de certificados")
     conf.add_http_port(mb_cache_size,certificate_file_for_browser,private_key_file)
     conf.save(filename)
 
     certificate=get_certificate_data()
     squid_commands=Squid(private_key_file, certificate_file_for_browser,
                          validity_in_days=365, rsa_key_length=2048,
-                         ssl_certs_directory="/etc/squid/certificados_squid_ssl",
+                         ssl_certs_directory=certs_directory,
                          comment_http_port=True, conf_file=filename, ssl_store_mb_limit_size=mb_cache_size,
                          certificate_data=certificate)
     squid_commands.save("squid.sh")
